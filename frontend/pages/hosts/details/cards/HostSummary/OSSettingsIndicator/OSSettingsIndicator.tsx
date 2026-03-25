@@ -5,6 +5,7 @@ import { IHostMdmProfile, MdmProfileStatus } from "interfaces/mdm";
 import Icon from "components/Icon";
 import Button from "components/buttons/Button";
 import { IconNames } from "components/icons";
+import CustomLink from "components/CustomLink";
 
 const baseClass = "os-settings-indicator";
 
@@ -125,13 +126,11 @@ const OSSettingsIndicator = ({
   return (
     <span className={`${baseClass} info-flex__data`}>
       <Icon name={statusDisplayOption.iconName} />
-      <Button
-        onClick={onClick}
-        variant="text-link"
+      <CustomLink
+        text={displayStatus}
+        customClickHandler={onClick}
         className={`${baseClass}__button`}
-      >
-        {displayStatus}
-      </Button>
+      />
     </span>
   );
 };

@@ -5,7 +5,7 @@ import classnames from "classnames";
 import { Colors } from "styles/var/colors";
 
 interface ICustomLinkProps {
-  url: string;
+  url?: string;
   text: string;
   className?: string;
   /** open the link in a new tab
@@ -22,6 +22,7 @@ interface ICustomLinkProps {
    * @default "default"
    */
   variant?: "tooltip-link" | "banner-link" | "flash-message-link" | "default";
+  customClickHandler?: (e: React.MouseEvent) => void;
 }
 
 const baseClass = "custom-link";
@@ -34,6 +35,7 @@ const CustomLink = ({
   multiline = false,
   disableKeyboardNavigation = false,
   variant = "default",
+  customClickHandler,
 }: ICustomLinkProps): JSX.Element => {
   const getIconColor = (): Colors => {
     switch (variant) {
@@ -56,6 +58,13 @@ const CustomLink = ({
   // e.g. cell/row handlers with a tooltip that has a custom link inside
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    // prevent navigation when we’re handling it ourselves
+    // e.g. designed underline links opening modals
+    if (customClickHandler) {
+      e.preventDefault();
+      customClickHandler(e);
+    }
   };
 
   const target = newTab ? "_blank" : "";

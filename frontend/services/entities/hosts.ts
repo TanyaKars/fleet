@@ -46,6 +46,35 @@ export interface ILoadHostsResponse {
   mobile_device_management_solution: IMdmSolution;
 }
 
+export interface IDepAssignmentHostResponse {
+  id: number;
+  dep_device: {
+    asset_tag: string;
+    color: string;
+    description: string;
+    device_assigned_by: string;
+    device_assigned_date: string;
+    device_family: string;
+    os: string;
+    profile_status: string;
+    profile_assign_time: string;
+    profile_push_time: string;
+    profile_uuid: string;
+    mdm_migration_deadline: string | null;
+    serial_number: string;
+  };
+  host_dep_assignment: {
+    assign_profile_response: string;
+    profile_uuid: string;
+    response_updated_at: string;
+    added_at: string;
+    deleted_at: string | null;
+    abm_token_id: number;
+    mdm_migration_deadline: string;
+    mdm_migration_completed: string;
+  };
+}
+
 export type IUnlockHostResponse =
   | {
       host_id: number;
@@ -699,5 +728,9 @@ export default {
   deleteHostIdp(hostId: number) {
     const path = endpoints.HOST_DEVICE_MAPPING_IDP(hostId);
     return sendRequest("DELETE", path);
+  },
+  getDepAssignment: (id: number) => {
+    const { HOST_DEP_ASSIGNMENT } = endpoints;
+    return sendRequest("GET", HOST_DEP_ASSIGNMENT(id));
   },
 };

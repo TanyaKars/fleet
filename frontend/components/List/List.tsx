@@ -11,6 +11,7 @@ export interface IListProps<TItem, TKey extends string = "id"> {
   idKey?: TKey;
   renderItemRow?: (item: TItem) => ReactElement | false | null | undefined;
   onClickRow?: (item: TItem) => void;
+  isRowClickable?: (item: TItem) => boolean;
   heading?: JSX.Element;
   helpText?: React.ReactNode;
 }
@@ -21,6 +22,7 @@ function List<TItem extends WithIdKey<TKey>, TKey extends string = "id">({
   idKey: _idKey,
   renderItemRow,
   onClickRow,
+  isRowClickable,
   heading,
   helpText,
 }: IListProps<TItem, TKey>): JSX.Element {
@@ -38,8 +40,10 @@ function List<TItem extends WithIdKey<TKey>, TKey extends string = "id">({
         {data.map((item) => {
           if (!item) return null;
 
+          const clickable = isRowClickable?.(item) ?? !!onClickRow;
+
           const rowClasses = classnames(`${baseClass}__row`, {
-            [`${baseClass}__row--clickable`]: !!onClickRow,
+            [`${baseClass}__row--clickable`]: clickable,
           });
 
           return (
@@ -47,7 +51,11 @@ function List<TItem extends WithIdKey<TKey>, TKey extends string = "id">({
             <li
               className={rowClasses}
               key={item[idKey]}
-              onClick={() => onClickRow?.(item)}
+              onClick={() => {
+                if (clickable) {
+                  onClickRow?.(item);
+                }
+              }}
             >
               {renderItemRow?.(item) ?? null}
             </li>

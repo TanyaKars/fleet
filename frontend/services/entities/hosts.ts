@@ -46,6 +46,14 @@ export interface ILoadHostsResponse {
   mobile_device_management_solution: IMdmSolution;
 }
 
+// TODO: Rest API docs show uppercase responses which is not a current pattern
+// Confirm with BE whether this is expected and if so, consider normalizing these responses in the API layer
+export type DepAssignProfileResponse =
+  | "SUCCESS"
+  | "FAILED"
+  | "THROTTLED"
+  | "NOT_ACCESSIBLE";
+
 export interface IDepAssignmentHostResponse {
   id: number;
   dep_device: {
@@ -64,7 +72,7 @@ export interface IDepAssignmentHostResponse {
     serial_number: string;
   };
   host_dep_assignment: {
-    assign_profile_response: string;
+    assign_profile_response: DepAssignProfileResponse;
     profile_uuid: string;
     response_updated_at: string;
     added_at: string;
@@ -133,6 +141,7 @@ export interface ILoadHostsOptions {
   scriptBatchExecutionStatus?: ScriptBatchHostCountV1;
   scriptBatchExecutionId?: string;
   depProfileError?: boolean;
+  depAssignProfileResponse?: DepAssignProfileResponse;
 }
 
 export interface IExportHostsOptions {
@@ -170,6 +179,7 @@ export interface IExportHostsOptions {
   scriptBatchExecutionStatus?: ScriptBatchHostCountV1;
   scriptBatchExecutionId?: string;
   depProfileError?: boolean;
+  depAssignProfileResponse?: DepAssignProfileResponse;
 }
 
 export interface IActionByFilter {
@@ -199,6 +209,7 @@ export interface IActionByFilter {
   scriptBatchExecutionStatus?: ScriptBatchHostCountV1;
   scriptBatchExecutionId?: string;
   depProfileError?: boolean;
+  depAssignProfileResponse?: DepAssignProfileResponse;
 }
 
 export interface IGetHostSoftwareResponse {
@@ -393,6 +404,7 @@ export default {
     const scriptBatchExecutionStatus = options?.scriptBatchExecutionStatus;
     const scriptBatchExecutionId = options?.scriptBatchExecutionId;
     const depProfileError = options?.depProfileError;
+    const depAssignProfileResponse = options?.depAssignProfileResponse;
 
     if (!sortBy.length) {
       throw Error("sortBy is a required field.");
@@ -432,6 +444,7 @@ export default {
         scriptBatchExecutionStatus,
         scriptBatchExecutionId,
         depProfileError,
+        depAssignProfileResponse,
       }),
       status,
       label_id: label,
@@ -478,6 +491,7 @@ export default {
     scriptBatchExecutionStatus,
     scriptBatchExecutionId,
     depProfileError,
+    depAssignProfileResponse,
   }: ILoadHostsOptions): Promise<ILoadHostsResponse> => {
     const label = getLabel(selectedLabels);
     const sortParams = getSortParams(sortBy);
@@ -521,6 +535,7 @@ export default {
         scriptBatchExecutionStatus,
         scriptBatchExecutionId,
         depProfileError,
+        depAssignProfileResponse,
       }),
     };
 
@@ -592,6 +607,7 @@ export default {
     diskEncryptionStatus,
     vulnerability,
     depProfileError,
+    depAssignProfileResponse,
   }: IActionByFilter) => {
     const { HOSTS_TRANSFER_BY_FILTER } = endpoints;
     return sendRequest("POST", HOSTS_TRANSFER_BY_FILTER, {
@@ -620,6 +636,7 @@ export default {
         os_settings_disk_encryption: diskEncryptionStatus,
         vulnerability,
         dep_profile_error: depProfileError,
+        dep_assing_profile_response: depAssignProfileResponse,
       },
     });
   },

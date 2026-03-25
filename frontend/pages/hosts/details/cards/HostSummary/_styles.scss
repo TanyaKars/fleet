@@ -10,8 +10,8 @@
 
   &__os-settings {
     dd {
-      padding-bottom: $pad-xsmall; // See underline under link
-      margin-bottom: -$pad-xsmall; // See underline under link
+      padding: 6px; // See underline under link and border with keyboard nav
+      margin: -6px; // See underline under link and border with keyboard nav
     }
   }
 

@@ -202,6 +202,7 @@ const HostSummary = ({
         hostSettings &&
         hostSettings.length > 0 && (
           <DataSet
+            className={`${baseClass}__os-settings`}
             title="OS settings"
             value={
               <OSSettingsIndicator

@@ -8,6 +8,13 @@
     align-items: baseline;
   }
 
+  &__os-settings {
+    dd {
+      padding-bottom: $pad-xsmall; // See underline under link
+      margin-bottom: -$pad-xsmall; // See underline under link
+    }
+  }
+
   // Properly vertically aligns host issue icon
   .host-issue {
     display: flex;

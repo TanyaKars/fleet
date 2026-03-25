@@ -123,6 +123,7 @@ const OSSettingsIndicator = ({
 
   const statusDisplayOption = STATUS_DISPLAY_OPTIONS[displayStatus];
 
+  // Using custom link for underline styling
   return (
     <span className={`${baseClass} info-flex__data`}>
       <Icon name={statusDisplayOption.iconName} />
